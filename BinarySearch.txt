@@ -1,0 +1,61 @@
+import java.util.Arrays;
+import java.util.Random;
+
+public class BinarySearch {
+
+    public static int BS(int[] A, int e) {
+        int pos = A.length / 2; // position in middle of array
+        if (A.length == 0) return -1; // fail if empty array given
+        int x = A[pos]; // element in middle of array
+
+        if (x == e) { // correct element found
+            return pos;
+        } else if (x < e) { // right side
+            return BS(Arrays.copyOfRange(A, pos + 1, A.length), e) + pos + 1;
+        } else { // left side
+            return BS(Arrays.copyOfRange(A, 0, pos), e);
+        }
+    }
+
+
+    public static void main(String[] args) {
+
+        // TESTING:
+        // Provides an example array of n size,
+        // and an element of that array to find with binary search.
+        //
+
+        int n = 100000000;
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            array[i] = i;
+        }
+
+        // element to find in array
+        Random rand = new Random();
+        int element = rand.nextInt(n);
+
+        // tests runtime (p.1)
+        long startTime = System.currentTimeMillis();
+
+        // BINARY SEARCH
+        int bs_found = BS(array, element);
+
+        // tests runtime (p.2)
+        long finishTime = System.currentTimeMillis();
+
+        if (bs_found == -1) {
+            // if empty array provided, algorithm fails and returns -1
+            System.out.println("False (element not in array, -1 returned.)");
+        } else {
+            if (array[bs_found] == element) {
+                System.out.println("Success! Element has been found.");
+                System.out.println("Runtime Performance for array size " + n + ": " +
+		(finishTime - startTime) + " ms");
+            } else {
+                System.out.println("Failure! Element found is incorrect");
+            }
+        }
+    }
+}
+
